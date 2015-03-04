@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" type="text/css" href="style/mystyle.css">
+	<script src='//www.google.com/jsapi' type='text/javascript'></script>
+</head>
+<body>
+	<div>
+		<div id='cse' style='width: 100%;'>Loading</div>
+		<script type='text/javascript'>
+		google.load('search', '1', {language: 'en', style: google.loader.themes.V2_DEFAULT});
+
+		google.setOnLoadCallback(OnLoad);
+
+	    function OnLoad() {
+	        imageSearch = new google.search.ImageSearch();
+	        imageSearch.setSearchCompleteCallback(this, searchComplete, null);
+	        imageSearch.execute("javascript");
+	    }
+
+	    //Code by Mark according to Google Image Search API (Deprecated)
+	    //appendChild can check this link: http://www.w3schools.com/jsref/met_document_createelement.asp
+	    function searchComplete() {
+
+	        if (imageSearch.results && imageSearch.results.length > 0) {
+	            var contentDiv = document.getElementById('content');
+	            contentDiv.innerHTML = ' ';
+	            var results = imageSearch.results;
+	            for (var i = 0; i < results.length; i++) {
+	                var result = results[i];
+	                var imgContainer = document.createElement('div');
+	                var title = document.createElement('div');
+
+	                title.innerHTML = result.titleNoFormatting;
+	                var newImg = document.createElement('img');
+	                newImg.src = result.url;
+	                imgContainer.appendChild(title);
+	                imgContainer.appendChild(newImg);
+	                contentDiv.appendChild(imgContainer);
+	            }
+	            addPaginationLinks(imageSearch);
+	        }
+	    }
+
+    	//New V1 Google Search Engine
+		// google.setOnLoadCallback(function() {
+		//   var customSearchOptions = {};
+		//   var orderByOptions = {};
+		//   orderByOptions['keys'] = [{label: 'Relevance', key: ''} , {label: 'Date', key: 'date'}];
+		//   customSearchOptions['enableOrderBy'] = true;
+		//   customSearchOptions['orderByOptions'] = orderByOptions;
+		//   var imageSearchOptions = {};
+		//   imageSearchOptions['layout'] = 'google.search.ImageSearch.LAYOUT_POPUP';
+		//   customSearchOptions['enableImageSearch'] = true;
+		//   customSearchOptions['overlayResults'] = false;
+		//   var customSearchControl =   new google.search.CustomSearchControl('003000483125422187532:jfylzf8yqtw', customSearchOptions);
+		//   customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);
+		//   var options = new google.search.DrawOptions();
+		//   options.setAutoComplete(true);
+		//   customSearchControl.draw('cse', options);
+		// }, true);
+
+		</script>
+	    <div id="content"></div>
+	</div>
+</body>
+</html>
